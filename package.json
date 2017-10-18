@@ -5,7 +5,7 @@
   "main": "src/service/index.js",
   "scripts": {
     "js-lint": "node ./node_modules/eslint/bin/eslint.js '**/*.js'",
-    "start": "NODE_ENV=production node . &",
+    "start": "NODE_ENV=production node .",
     "integration-test": "newman run tests/integration/todo-tests.json --reporter-html-export reports/api.html --reporters html,cli",
     "copy-mock-data": "yes | cp -rf ./integration-mock-db/ ./test-db/",
     "start:dev": "nodemon .",

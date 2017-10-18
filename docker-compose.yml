@@ -1,0 +1,12 @@
+version: '2'
+services:
+  service:
+    image: yhc3l/todo-service-1618
+    ports:
+      - "8081:8081"
+    restart: always
+  client:
+    image: yhc3l/todo-client-1618
+    ports:
+      - "8084:80"
+    restart: always

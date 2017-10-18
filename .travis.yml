@@ -1,9 +1,19 @@
 language: node_js
 node_js:
-  - "8.5"
-sudo: false
+  - "8.7"
+sudo: true
+services:
+  - docker
+script:
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - export DOCKER_TAG=$(if [ "$BRANCH" == "master" ]; then echo "latest"; else echo $BRANCH; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
 before_install:
   - npm install
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker build -t yhc3l/todo-service-1618:"$DOCKER_TAG" .
+  - docker push yhc3l/todo-service-1618:"$DOCKER_TAG";
 notifications:
   email:
     on_success: never
