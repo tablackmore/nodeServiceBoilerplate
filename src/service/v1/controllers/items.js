@@ -23,7 +23,7 @@ const remove = (req, res) => {
 };
 
 const add = (req, res) => {
-  const todoItem = req.body.value;
+  const todoItem = req.body;
   const id = todoItems.add(todoItem);
   res.status(201).json({ id });
 };

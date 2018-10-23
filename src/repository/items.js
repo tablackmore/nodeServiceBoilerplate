@@ -19,11 +19,9 @@ function save() {
 
 const publicAPI = {};
 
-publicAPI.add = (value) => {
+publicAPI.add = (item) => {
   const uniqueId = generateId();
-  items[uniqueId] = {
-    value,
-  };
+  items[uniqueId] = item;
   save();
   return uniqueId;
 };
@@ -38,10 +36,9 @@ publicAPI.remove = (id) => {
 publicAPI.getAll = () => {
   const itemsArray = [];
   Object.keys(items).forEach((id) => {
-    itemsArray.push({
-      id,
-      value: items[id].value,
-    });
+    const item = items[id];
+    item.id = id;
+    itemsArray.push(item);
   });
   return itemsArray;
 };
