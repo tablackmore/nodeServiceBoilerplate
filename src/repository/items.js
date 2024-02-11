@@ -26,7 +26,21 @@ publicAPI.add = (item) => {
   return uniqueId;
 };
 
-publicAPI.get = id => items[id];
+publicAPI.update = (id, item) => {
+  items[id] = item;
+  save();
+  return id;
+};
+
+publicAPI.patch = (id, item) => {
+  items[id] = {
+    ...items[id], ...item,
+  };
+  save();
+  return id;
+};
+
+publicAPI.get = (id) => items[id];
 
 publicAPI.remove = (id) => {
   delete items[id];

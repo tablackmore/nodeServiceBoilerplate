@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
+const nocache = require('nocache');
 const morgan = require('morgan');
 
 const routesV1 = require('./v1/routes');
@@ -15,7 +16,7 @@ const logLevel = isProd ? 'combined' : 'dev';
 /* Provide access logging */
 app.use(morgan(logLevel, {
   stream: {
-    write: message => logger.info(message.trim()),
+    write: (message) => logger.log('info', message.trim()),
   },
 }));
 
@@ -29,11 +30,18 @@ app.use(bodyParser.json());
 app.use(compression());
 
 /* Set no cache headers on responses */
-app.use(helmet.noCache());
+app.use(nocache());
 
 /* Allow cross origin requests */
 app.use(allowCrossOrigin);
 
 app.use('/v1', routesV1);
+
+app.use((req, res) => {
+  res.status(404).json({
+    type: 'error',
+    message: 'Not found',
+  });
+});
 
 module.exports = app;
